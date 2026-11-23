@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="sv">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="SOCIETY-X – öppna, reproducerbara forskningsspår och hypoteser.">
+<meta name="description" content="SOCIETY-X — open, reproducible research, discoveries and hypotheses.">
 <title>SOCIETY-X — Discovery Portal</title>
 <style>
 :root{color-scheme:dark;--bg:#0b1020;--panel:#121a2d;--line:#27334b;--text:#edf2ff;--muted:#a8b4ca;--accent:#82d8c4;--warn:#f2c879}
@@ -19,57 +19,57 @@ a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}.li
 <body><main>
 <div class="eyebrow">Open research · Independent inquiry</div>
 <h1>SOCIETY-X</h1>
-<p class="intro">Ett öppet forskningsinitiativ för att utforska data, hitta oväntade samband, formulera hypoteser och försöka motbevisa dem. Resultat publiceras med metod, källor, osäkerheter och begränsningar.</p>
-<div class="status">● Forskningsspår · preliminära resultat</div>
+<p class="intro">An open research initiative exploring data, identifying unexpected relationships, formulating hypotheses, and attempting to falsify them. Findings are published with their methods, sources, uncertainties, and limitations.</p>
+<div class="status">● Research discoveries · preliminary results</div>
 <div class="grid" aria-live="polite">
- <section class="panel"><div class="metric" id="run">—</div><div class="metric-label">Senaste körning (UTC)</div></section>
- <section class="panel"><div class="metric" id="indicators">—</div><div class="metric-label">Datamängder hämtade</div></section>
- <section class="panel"><div class="metric" id="count">—</div><div class="metric-label">Kandidatsamband i senaste körningen</div></section>
- <section class="panel"><div class="metric" id="status">—</div><div class="metric-label">Valideringsstatus</div></section>
+ <section class="panel"><div class="metric" id="run">—</div><div class="metric-label">Latest run (UTC)</div></section>
+ <section class="panel"><div class="metric" id="indicators">—</div><div class="metric-label">Datasets retrieved</div></section>
+ <section class="panel"><div class="metric" id="count">—</div><div class="metric-label">Candidate associations in latest run</div></section>
+ <section class="panel"><div class="metric" id="status">—</div><div class="metric-label">Validation status</div></section>
 </div>
 <section class="section panel">
-<h2>Senaste forskningsspår</h2>
-<p>Rangordnade statistiska samband i öppna landsdata. Ett samband är inte en förklaring eller ett orsakssamband.</p>
-<div id="findings"><p>Läser in senaste forskningsresultatet…</p></div>
+<h2>Latest research discoveries</h2>
+<p>Ranked statistical associations in open cross-country data. An association is not an explanation or evidence of causation.</p>
+<div id="findings"><p>Loading the latest research results…</p></div>
 <div id="error" role="status"></div>
 </section>
 <section class="section">
-<h2>Hur resultaten ska läsas</h2>
-<div class="notice">Kandidaterna nedan är explorativa och overifierade. De visar statistiska mönster i ett begränsat urval av indikatorer. De bevisar inte kausalitet, nyhet eller prediktiv förmåga.</div>
-<p>SOCIETY-X ska redovisa även misslyckade försök, databrister och resultat som motsäger tidigare hypoteser. Starkare slutsatser kräver oberoende data, robusthetskontroller och replikering.</p>
+<h2>How to interpret these results</h2>
+<div class="notice">The candidates below are exploratory and unverified. They show statistical patterns in a limited selection of indicators. They do not establish causality, novelty, or predictive power.</div>
+<p>SOCIETY-X aims to report failed attempts, data limitations, and findings that contradict previous hypotheses. Stronger conclusions require independent data, robustness checks, and replication.</p>
 </section>
 <section class="section">
-<h2>Data och metod</h2>
-<p>Den första prototypen analyserar indikatorer från World Bank för åren 2000–2023. Pearson-korrelationer beräknas separat för varje år över länder med tillgängliga observationer. Metoden är en enkel upptäcktsmekanism, inte en fullständig statistisk granskning.</p>
-<div class="links"><a href="./results/latest.json">Senaste resultatet (JSON) ↗</a><a href="./results/history.jsonl">Full historik (JSONL) ↗</a><a href="https://github.com/Michael-ui605/Society-X-Discoveries">Projektarkiv ↗</a></div>
+<h2>Data and methodology</h2>
+<p>The initial prototype analyses World Bank indicators for 2000–2023. Pearson correlations are calculated separately for each year across countries with available observations. This is a basic discovery mechanism, not a complete statistical review.</p>
+<div class="links"><a href="./results/latest.json">Latest result (JSON) ↗</a><a href="./results/history.jsonl">Full research history (JSONL) ↗</a><a href="https://github.com/Michael-ui605/Society-X-Discoveries">Project repository ↗</a><a href="./docs/RESEARCH_METHOD.md">Research methodology ↗</a></div>
 </section>
-<div class="footer">SOCIETY-X · Öppen forskning, reproducerbarhet och intellektuell ödmjukhet.<br><span class="small">Portalens innehåll uppdateras när nya forskningskörningar publiceras.</span></div>
+<div class="footer">SOCIETY-X · Open research, reproducibility, and intellectual humility.<br><span class="small">The portal is updated when new research runs are published.</span></div>
 </main>
 <script>
 const $=id=>document.getElementById(id);
-const safeDate=s=>{try{return new Date(s).toLocaleString("sv-SE",{timeZone:"UTC",timeZoneName:"short"})}catch{return s||"—"}};
+const safeDate=s=>{try{return new Date(s).toLocaleString("en-GB",{timeZone:"UTC",timeZoneName:"short"})}catch{return s||"—"}};
 async function load(){
  try{
   const response=await fetch("./results/latest.json",{cache:"no-store"});
-  if(!response.ok)throw new Error("Kunde inte hämta latest.json (HTTP "+response.status+").");
+  if(!response.ok)throw new Error("Could not retrieve latest.json (HTTP "+response.status+").");
   const data=await response.json();
   $("run").textContent=safeDate(data.completed_at);
   $("indicators").textContent=(data.research_scope?.indicators_retrieved??"—")+"/"+(data.research_scope?.indicators_requested??"—");
   $("count").textContent=data.candidate_discoveries?.length??0;
-  $("status").textContent=(data.status||"okänd").replaceAll("_"," ");
+  $("status").textContent=(data.status||"unknown").replaceAll("_"," ");
   const root=$("findings");root.replaceChildren();
   const rows=data.candidate_discoveries||[];
-  if(!rows.length){root.textContent="Inga kandidatsamband rapporterades i denna körning.";return}
+  if(!rows.length){root.textContent="No candidate associations were reported in this run.";return}
   for(const item of rows.slice(0,10)){
    const article=document.createElement("article");article.className="finding";
    const title=document.createElement("div");title.className="finding-title";title.textContent=(item.labels||item.variables||[]).join(" ↔ ");
-   const pill=document.createElement("span");pill.className="pill";pill.textContent="explorativt";title.append(pill);
+   const pill=document.createElement("span");pill.className="pill";pill.textContent="exploratory";title.append(pill);
    const meta=document.createElement("div");meta.className="meta";
-   meta.textContent="Median r: "+item.median_yearly_r+" · Genomsnitt |r|: "+item.mean_absolute_yearly_r+" · År: "+item.years_analysed+" · Observationer: "+item.total_country_year_observations;
-   const note=document.createElement("p");note.textContent=item.interpretation||"Explorativt samband; ingen kausal slutsats.";
+   meta.textContent="Median r: "+item.median_yearly_r+" · Mean |r|: "+item.mean_absolute_yearly_r+" · Years: "+item.years_analysed+" · Observations: "+item.total_country_year_observations;
+   const note=document.createElement("p");note.textContent=item.interpretation||"Exploratory association; no causal conclusion.";
    article.append(title,meta,note);root.append(article);
   }
- }catch(error){$("findings").textContent="Forskningsresultatet kunde inte visas."; $("error").textContent=error.message+" Kontrollera att portalens publicerade webbplats innehåller mappen results/."}
+ }catch(error){$("findings").textContent="The research results could not be displayed."; $("error").textContent=error.message+" Check that the published portal contains the results/ directory."}
 }
 load();
 </script>
